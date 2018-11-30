@@ -12,6 +12,9 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    /**
+     * Authenticate user
+     */
     public function authenticate(Request $request)
     {
         $email = $request->get('email');
@@ -37,6 +40,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Register new user
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -61,31 +67,47 @@ class UserController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(compact('user','token'), 201);
+        return response()->json([
+            'message' => 'User was successfully registered.',
+            'data' => compact('user','token')
+        ], 201);
     }
 
+    /**
+     * Get information about authenticated user
+     */
     public function getAuthenticatedUser()
     {
         try {
 
-                if (! $user = JWTAuth::parseToken()->authenticate()) {
-                        return response()->json(['user_not_found'], 404);
-                }
+            if (!($user = JWTAuth::parseToken()->authenticate())) {
+                    return response()->json([
+                        'message' => 'User not found.'
+                    ], 404);
+            }
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-                return response()->json(['token_expired'], $e->getStatusCode());
+            return response()->json([
+                'message' => 'Token expired.'
+            ], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
-                return response()->json(['token_invalid'], $e->getStatusCode());
+            return response()->json([
+                'message' => 'Token invalid.'
+            ], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
-                return response()->json(['token_absent'], $e->getStatusCode());
+            return response()->json([
+                'message' => 'Token absent.'
+            ], $e->getStatusCode());
 
         }
 
-        return response()->json(compact('user'));
+        return response()->json([
+            'data' => compact('user')
+        ]);
     }
 }
