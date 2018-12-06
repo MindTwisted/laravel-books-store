@@ -12,4 +12,20 @@ class Cart extends Model
      * @var string
      */
     protected $table = 'cart';
+
+    /**
+     * Get the user that owns the cart.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the book that owns the cart.
+     */
+    public function book()
+    {
+        return $this->belongsTo('App\Book');
+    }
 }
