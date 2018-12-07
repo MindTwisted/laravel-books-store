@@ -14,10 +14,22 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['namespace' => 'Api'], function() {
-    Route::post('register', 'UserController@register');
-    Route::post('login', 'UserController@authenticate');
+    Route::name('api.')->group(function () {
+        
+        Route::post('register', 'UserController@register')->name('users.register');
+        Route::post('login', 'UserController@authenticate')->name('users.login');
 
-    Route::group(['middleware' => ['jwt.verify']], function() {
-        Route::get('user', 'UserController@getAuthenticatedUser');
+        Route::resource('authors', 'AuthorController')->only([
+            'index', 'show'
+        ]);
+
+        Route::group(['middleware' => ['jwt.verify']], function() {
+            Route::get('user', 'UserController@getAuthenticatedUser')->name('users.current');
+
+            Route::resource('authors', 'AuthorController')->only([
+                'store', 'update', 'destroy'
+            ]);
+        });
+
     });
 });
