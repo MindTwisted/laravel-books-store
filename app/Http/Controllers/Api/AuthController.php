@@ -10,12 +10,12 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     /**
      * Authenticate user
      */
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         $email = $request->get('email');
         $password = $request->get('password');
@@ -76,7 +76,7 @@ class UserController extends Controller
     /**
      * Get information about authenticated user
      */
-    public function getAuthenticatedUser()
+    public function current()
     {
         try {
 

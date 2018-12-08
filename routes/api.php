@@ -21,10 +21,10 @@ Route::group(['namespace' => 'Api'], function() {
         
         // Guest routes
         // Login route
-        Route::post('login', 'UserController@authenticate')->name('users.login');
+        Route::put('auth', 'AuthController@login')->name('auth.login');
 
         // Register route
-        Route::post('register', 'UserController@register')->name('users.register');
+        Route::post('auth', 'AuthController@register')->name('auth.register');
 
         // Authors routes
         Route::resource('authors', 'AuthorController')->only([
@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Api'], function() {
         Route::group(['middleware' => ['jwt.verify']], function() {
 
             // User info route
-            Route::get('user', 'UserController@getAuthenticatedUser')->name('users.current');
+            Route::get('auth', 'AuthController@current')->name('auth.current');
 
             // Auth and Admin protected routes
             Route::group(['middleware' => 'admin'], function() {
