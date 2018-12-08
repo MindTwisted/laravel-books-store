@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+// Routes in Api namespace
 Route::group(['namespace' => 'Api'], function() {
+
+    // Routes with api. names
     Route::name('api.')->group(function () {
         
         // Guest routes
@@ -25,6 +28,11 @@ Route::group(['namespace' => 'Api'], function() {
 
         // Authors routes
         Route::resource('authors', 'AuthorController')->only([
+            'index', 'show'
+        ]);
+
+        // Genres routes
+        Route::resource('genres', 'GenreController')->only([
             'index', 'show'
         ]);
 
@@ -41,10 +49,16 @@ Route::group(['namespace' => 'Api'], function() {
                 Route::resource('authors', 'AuthorController')->only([
                     'store', 'update', 'destroy'
                 ]);
+
+                // Genres routes
+                Route::resource('genres', 'GenreController')->only([
+                    'store', 'update', 'destroy'
+                ]);
                 
             });
 
         });
 
     });
+
 });
