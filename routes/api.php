@@ -16,19 +16,34 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api'], function() {
     Route::name('api.')->group(function () {
         
-        Route::post('register', 'UserController@register')->name('users.register');
+        // Guest routes
+        // Login route
         Route::post('login', 'UserController@authenticate')->name('users.login');
 
+        // Register route
+        Route::post('register', 'UserController@register')->name('users.register');
+
+        // Authors routes
         Route::resource('authors', 'AuthorController')->only([
             'index', 'show'
         ]);
 
+        // Auth protected routes
         Route::group(['middleware' => ['jwt.verify']], function() {
+
+            // User info route
             Route::get('user', 'UserController@getAuthenticatedUser')->name('users.current');
 
-            Route::resource('authors', 'AuthorController')->only([
-                'store', 'update', 'destroy'
-            ]);
+            // Auth and Admin protected routes
+            Route::group(['middleware' => 'admin'], function() {
+
+                // Authors routes
+                Route::resource('authors', 'AuthorController')->only([
+                    'store', 'update', 'destroy'
+                ]);
+                
+            });
+
         });
 
     });

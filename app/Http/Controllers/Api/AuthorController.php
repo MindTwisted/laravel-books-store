@@ -17,7 +17,9 @@ class AuthorController extends Controller
     {
         $authors = Author::all();
 
-        return response()->json(compact('authors'));
+        return response()->json([
+            'data' => compact('authors')
+        ]);
     }
 
     /**
@@ -25,7 +27,9 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        return response()->json(compact('author'));
+        return response()->json([
+            'data' => compact('author')
+        ]);
     }
 
     /**

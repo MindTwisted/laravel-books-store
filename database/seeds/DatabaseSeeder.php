@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,7 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 1)->create();
+        User::create([
+            'name' => 'John Walker',
+            'email' => 'john@example.com',
+            'password' => Hash::make('secret'),
+            'role' => 'admin'
+        ]);
+
+        User::create([
+            'name' => 'Michael Smith',
+            'email' => 'smith@example.com',
+            'password' => Hash::make('secret')
+        ]);
 
         factory(App\Book::class, 20)->create()->each(function ($book) {
             $book->authors()->save(factory(App\Author::class)->make());
