@@ -61,6 +61,11 @@ Route::group(['namespace' => 'Api'], function() {
             Route::put('users/current', 'UserController@updateCurrent')
                 ->name('users.updateCurrent');
 
+            // Cart routes
+            Route::resource('cart', 'CartController')->only([
+                'index', 'store', 'update', 'destroy'
+            ]);
+
             // Auth and Admin protected routes
             Route::group(['middleware' => 'admin'], function() {
 

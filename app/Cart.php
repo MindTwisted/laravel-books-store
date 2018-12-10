@@ -14,6 +14,29 @@ class Cart extends Model
     protected $table = 'cart';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'count',
+        'user_id',
+        'book_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id',
+        'book_id',
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * Get the user that owns the cart.
      */
     public function user()
