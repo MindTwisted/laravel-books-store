@@ -26,14 +26,36 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('secret')
         ]);
 
-        factory(App\Book::class, 20)->create()->each(function ($book) {
-            $book->authors()->save(factory(App\Author::class)->make());
-            $book->authors()->save(factory(App\Author::class)->make());
-            
-            $book->genres()->save(factory(App\Genre::class)->make());
-            $book->genres()->save(factory(App\Genre::class)->make());
-            $book->genres()->save(factory(App\Genre::class)->make());
-        });
+        $books = [];
+        $authors = [];
+        $genres = [];
+
+        for ($i = 0; $i < 20; $i++)
+        {
+            $books[] = factory(App\Book::class)->create();
+        }
+
+        for ($i = 0; $i < 30; $i++)
+        {
+            $authors[] = factory(App\Author::class)->create();
+        }
+
+        for ($i = 0; $i < 40; $i++)
+        {
+            $genres[] = factory(App\Genre::class)->create();
+        }
+        
+        foreach($books as $book)
+        {
+            $book->authors()->save($authors[array_rand($authors)]);
+            $book->authors()->save($authors[array_rand($authors)]);
+
+            $book->genres()->save($genres[array_rand($genres)]);
+            $book->genres()->save($genres[array_rand($genres)]);
+            $book->genres()->save($genres[array_rand($genres)]);
+
+            $book->save();
+        }
 
         factory(App\PaymentType::class, 5)->create();
     }

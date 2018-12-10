@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -15,7 +16,7 @@ class AuthController extends Controller
     /**
      * Authenticate user
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $email = $request->get('email');
         $password = $request->get('password');
@@ -43,7 +44,7 @@ class AuthController extends Controller
     /**
      * Register new user
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -76,7 +77,7 @@ class AuthController extends Controller
     /**
      * Get information about authenticated user
      */
-    public function current()
+    public function current(): JsonResponse
     {
         try {
 

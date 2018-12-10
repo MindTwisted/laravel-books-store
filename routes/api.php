@@ -30,9 +30,18 @@ Route::group(['namespace' => 'Api'], function() {
         Route::resource('authors', 'AuthorController')->only([
             'index', 'show'
         ]);
+        Route::get('authors/{author}/books', 'AuthorController@showBooks')
+            ->name('authors.showBooks');
 
         // Genres routes
         Route::resource('genres', 'GenreController')->only([
+            'index', 'show'
+        ]);
+        Route::get('genres/{genre}/books', 'GenreController@showBooks')
+            ->name('genres.showBooks');
+
+        // Books routes
+        Route::resource('books', 'BookController')->only([
             'index', 'show'
         ]);
 
@@ -40,7 +49,8 @@ Route::group(['namespace' => 'Api'], function() {
         Route::group(['middleware' => ['jwt.verify']], function() {
 
             // User info route
-            Route::get('auth', 'AuthController@current')->name('auth.current');
+            Route::get('auth', 'AuthController@current')
+                ->name('auth.current');
 
             // Auth and Admin protected routes
             Route::group(['middleware' => 'admin'], function() {
@@ -54,6 +64,17 @@ Route::group(['namespace' => 'Api'], function() {
                 Route::resource('genres', 'GenreController')->only([
                     'store', 'update', 'destroy'
                 ]);
+
+                // Books routes
+                Route::resource('books', 'BookController')->only([
+                    'store', 'update', 'destroy'
+                ]);
+                Route::post('books/{book}/authors', 'BookController@storeAuthors')
+                    ->name('books.storeAuthors');
+                Route::post('books/{book}/genres', 'BookController@storeGenres')
+                    ->name('books.storeGenres');
+                Route::post('books/{book}/image', 'BookController@storeImage')
+                    ->name('books.storeImage');
                 
             });
 

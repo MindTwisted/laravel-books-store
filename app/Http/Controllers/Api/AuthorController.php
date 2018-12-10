@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAuthor;
 use App\Http\Requests\UpdateAuthor;
@@ -13,7 +14,7 @@ class AuthorController extends Controller
     /**
      * Get all authors
      */
-    public function index() 
+    public function index(): JsonResponse
     {
         $authors = Author::all();
 
@@ -25,7 +26,7 @@ class AuthorController extends Controller
     /**
      * Get author by id
      */
-    public function show(Author $author)
+    public function show(Author $author): JsonResponse
     {
         return response()->json([
             'data' => compact('author')
@@ -33,9 +34,21 @@ class AuthorController extends Controller
     }
 
     /**
+     * Get books by author
+     */
+    public function showBooks(Author $author): JsonResponse
+    {
+        $books = $author->books()->get();
+
+        return response()->json([
+            'data' => compact('books')
+        ]);
+    }
+
+    /**
      * Store new author
      */
-    public function store(StoreAuthor $request)
+    public function store(StoreAuthor $request): JsonResponse
     {
         $author = Author::create([
             'name' => $request->get('name')
@@ -50,7 +63,7 @@ class AuthorController extends Controller
     /**
      * Update author
      */
-    public function update($id, UpdateAuthor $request)
+    public function update($id, UpdateAuthor $request): JsonResponse
     {
         $author = Author::findOrFail($id);
         $author->update([
@@ -66,7 +79,7 @@ class AuthorController extends Controller
     /**
      * Delete author
      */
-    public function destroy(Author $author)
+    public function destroy(Author $author): JsonResponse
     {
         $author->delete();
 
