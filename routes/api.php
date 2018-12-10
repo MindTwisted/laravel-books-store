@@ -57,6 +57,10 @@ Route::group(['namespace' => 'Api'], function() {
             Route::get('auth', 'AuthController@current')
                 ->name('auth.current');
 
+            // Users routes
+            Route::put('users/current', 'UserController@updateCurrent')
+                ->name('users.updateCurrent');
+
             // Auth and Admin protected routes
             Route::group(['middleware' => 'admin'], function() {
 
@@ -80,7 +84,11 @@ Route::group(['namespace' => 'Api'], function() {
                     ->name('books.storeGenres');
                 Route::post('books/{book}/image', 'BookController@storeImage')
                     ->name('books.storeImage');
-                
+
+                // Users routes
+                Route::resource('users', 'UserController')->only([
+                    'index', 'show', 'update'
+                ]);
             });
 
         });
