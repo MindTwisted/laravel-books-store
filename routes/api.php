@@ -45,6 +45,11 @@ Route::group(['namespace' => 'Api'], function() {
             'index', 'show'
         ]);
 
+        // PaymentTypes routes
+        Route::resource('payment-types', 'PaymentTypeController')->only([
+            'index', 'show'
+        ]);
+
         // Auth protected routes
         Route::group(['middleware' => ['jwt.verify']], function() {
 
