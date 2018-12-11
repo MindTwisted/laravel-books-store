@@ -66,6 +66,11 @@ Route::group(['namespace' => 'Api'], function() {
                 'index', 'store', 'update', 'destroy'
             ]);
 
+            // Orders routes
+            Route::resource('orders', 'OrderController')->only([
+                'index', 'store'
+            ]);
+
             // Auth and Admin protected routes
             Route::group(['middleware' => 'admin'], function() {
 
@@ -93,6 +98,11 @@ Route::group(['namespace' => 'Api'], function() {
                 // Users routes
                 Route::resource('users', 'UserController')->only([
                     'index', 'show', 'update'
+                ]);
+
+                // Orders routes
+                Route::resource('orders', 'OrderController')->only([
+                    'update', 'destroy'
                 ]);
             });
 
