@@ -14,9 +14,11 @@ class AuthorController extends Controller
     /**
      * Get all authors
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $authors = Author::all();
+        $offset = $request->input('offset', 0);
+
+        $authors = Author::offset($offset)->limit(50)->get();
 
         return response()->json([
             'data' => compact('authors')

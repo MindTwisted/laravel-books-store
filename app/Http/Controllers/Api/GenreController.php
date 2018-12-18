@@ -14,9 +14,11 @@ class GenreController extends Controller
     /**
      * Get all genres
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $genres = Genre::all();
+        $offset = $request->input('offset', 0);
+
+        $genres = Genre::offset($offset)->limit(50)->get();
 
         return response()->json([
             'data' => compact('genres')

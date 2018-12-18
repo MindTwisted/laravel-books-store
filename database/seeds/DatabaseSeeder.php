@@ -30,17 +30,17 @@ class DatabaseSeeder extends Seeder
         $authors = [];
         $genres = [];
 
-        for ($i = 0; $i < 20; $i++)
+        for ($i = 0; $i < 1000; $i++)
         {
             $books[] = factory(App\Book::class)->create();
         }
 
-        for ($i = 0; $i < 30; $i++)
+        for ($i = 0; $i < 400; $i++)
         {
             $authors[] = factory(App\Author::class)->create();
         }
 
-        for ($i = 0; $i < 40; $i++)
+        for ($i = 0; $i < 50; $i++)
         {
             $genres[] = factory(App\Genre::class)->create();
         }

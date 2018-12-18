@@ -23,6 +23,7 @@ class BookController extends Controller
         $authorId = $request->input('author_id');
         $genreId = $request->input('genre_id');
         $title = $request->input('title');
+        $offset = $request->input('offset', 0);
 
         $books = Book
             ::whereHas('authors', function($query) use ($authorId) {
@@ -39,6 +40,8 @@ class BookController extends Controller
             })
             ->where('title', 'like', "%$title%")
             ->with(['authors', 'genres'])
+            ->offset($offset)
+            ->limit(50)
             ->get();
 
         return response()->json([
